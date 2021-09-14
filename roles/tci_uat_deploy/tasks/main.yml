@@ -1,0 +1,45 @@
+- name: create directory if they don't exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: moni
+    group: moni
+    mode: 0775
+  loop:
+    - /tmp/deployables/
+    - /tmp/deployables/dev/
+    - /tmp/deployables/uat/
+    
+    
+- name: Delete old war file from tmp
+  file:
+    path: "{{ tmp_tci_dir }}"
+    state: absent
+
+- name: Copy war file from jenkins to tmp
+  copy:
+    src: "{{ src_tci_uat }}"
+    dest: "{{ tmp_tci_dir }}"
+
+- name: "Stop Tomcat"
+  shell: systemctl stop tomcat-tci-uat.service
+
+- name: Delete old war file
+  file:
+    path: "{{ tci_dir }}"
+    state: absent
+
+- name: Copy war file from tmp to webapps
+  copy:
+    src: "{{ tmp_tci_dir }}"
+    dest: "{{ tci_dir }}"
+    remote_src: yes
+
+- name: Set correct permissions
+  file:
+    path: "{{ tci_dir }}"
+    owner: moni
+    group: moni
+
+- name: "Start Tomcat"
+  shell: systemctl start tomcat-tci-uat.service

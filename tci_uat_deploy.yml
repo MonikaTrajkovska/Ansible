@@ -1,0 +1,6 @@
+ name: "Deploy application"
+  hosts: tomcat_tci
+  gather_facts: no
+  become: true
+  roles:
+    - tci_uat_deploy
