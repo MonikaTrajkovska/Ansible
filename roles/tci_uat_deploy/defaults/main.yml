@@ -1,5 +1,5 @@
 tci_dir: '/var/www/sites/webapps-tci-uat/ROOT.war'
 tmp_tci_dir: '/tmp/deployables/uat/ROOT.war'
-src_tci_uat: '/var/lib/jenkins/workspace/MyTelenor_test'
+src_tci_uat: '/var/lib/jenkins/workspace/Hello_world_test'
 port_timeout: '360'
 port: '8080'
